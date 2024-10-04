@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "Src/Templates/Templates.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
+                "file": "Src/Templates/Templates.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
+                "file": "Src/Templates/Templates.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "README.md"
+                "file": "Src/Templates/Templates.md"
               }
             }
           }
@@ -147,16 +147,20 @@
   },
   "active": "a9900dcfa25d70b6",
   "lastOpenFiles": [
-    "Fundamente/tema_lab1_probleme_Tudor/setul2-11.py",
-    "Fundamente/tema_lab1_probleme_Tudor/setul3-13.py",
-    "Fundamente/tema_lab1_probleme_Tudor/setul1-3.py",
-    "Fundamente/tema_lab1_probleme_Tudor/setul1-2.py",
-    "Fundamente/tema_lab1_probleme_Tudor",
-    "Open Notebook.onetoc2",
-    "Notite de Cota Seful/Open Notebook.onetoc2",
-    "Notite de Cota Seful",
-    "Tudor",
-    "New folder",
-    "Fundamente/tema_lab1_probleme/setul2-11.py"
+    "Src/Logica Computationala/Lectures",
+    "Src/Logica Computationala/Seminars",
+    "Src/Fundamentele programarii/Lectures",
+    "Src/Fundamentele programarii/Seminars",
+    "Src/ASC/Lectures",
+    "Src/ASC/Seminars",
+    "Src/Analiza/Lectures",
+    "Src/Analiza/Seminars",
+    "Src/Lectures",
+    "Src/Seminars",
+    "Src/Algebra/Seminars",
+    "Untitled.md",
+    "Src/Templates/Templates.md",
+    "README.md",
+    "Raw/Untitled.md"
   ]
 }
