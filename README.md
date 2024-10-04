@@ -98,6 +98,8 @@ here is an example:
 
 You can find some templates to assist you in `/Templates`
 
+Obsidian text formatting guide [here](https://help.obsidian.md/Editing+and+formatting/Basic+formatting+syntax) 
+
 
 # Deployment
 
