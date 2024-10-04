@@ -121,6 +121,6 @@ In the popup, navigate to the folder where you cloned the repository and after t
 
 ### Opening the vault
 In case that Obsidian doesn't open in your vault you can switch vaults by clicking the button located in the bottom left side of the window 
-![SwitchVault](/ReadmeSrc/SwitchVault.PNG)
+<br>![SwitchVault](/ReadmeSrc/SwitchVault.PNG)
 
 
