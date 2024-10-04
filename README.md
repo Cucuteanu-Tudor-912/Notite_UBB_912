@@ -115,7 +115,7 @@ In your preferred terminal, navigate to the folder where you want to deploy the 
 
 #### 2. Open Obsidian vault
 Open **Obsidian** and then press **open folder as vault**
-![Open folder as vault](/ReadmeSrc/OpenVault.png)
+![Open folder as vault](/ReadmeSrc/OpenVault.PNG)
 
 In the popup, navigate to the folder where you cloned the repository and after that press **select folder**
 
