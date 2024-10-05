@@ -98,6 +98,8 @@ here is an example:
 
 You can find some templates to assist you in `/Templates`
 
+Obsidian text formatting guide [here](https://help.obsidian.md/Editing+and+formatting/Basic+formatting+syntax) 
+
 
 # Deployment
 
@@ -115,12 +117,12 @@ In your preferred terminal, navigate to the folder where you want to deploy the 
 
 #### 2. Open Obsidian vault
 Open **Obsidian** and then press **open folder as vault**
-![Open folder as vault](/ReadmeSrc/OpenVault.png)
+![Open folder as vault](/ReadmeSrc/OpenVault.PNG)
 
 In the popup, navigate to the folder where you cloned the repository and after that press **select folder**
 
 ### Opening the vault
 In case that Obsidian doesn't open in your vault you can switch vaults by clicking the button located in the bottom left side of the window 
-![SwitchVault](/ReadmeSrc/SwitchVault.PNG)
+<br>![SwitchVault](/ReadmeSrc/SwitchVault.PNG)
 
 
