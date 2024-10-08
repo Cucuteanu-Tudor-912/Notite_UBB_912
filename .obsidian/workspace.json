@@ -4,19 +4,15 @@
     "type": "split",
     "children": [
       {
-        "id": "785dc2fcfba00f09",
+        "id": "0f49a73b5fcdf2c1",
         "type": "tabs",
         "children": [
           {
-            "id": "40cfe3722531b523",
+            "id": "bfe67baedb2b10e9",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
         ]
@@ -85,7 +81,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +97,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -124,9 +118,7 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "README.md"
-              }
+              "state": {}
             }
           }
         ]
@@ -145,8 +137,10 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a9900dcfa25d70b6",
+  "active": "bfe67baedb2b10e9",
   "lastOpenFiles": [
+    "Untitled.canvas",
+    "README.md",
     "Fundamente/tema_lab1_probleme_Tudor/setul2-11.py",
     "Fundamente/tema_lab1_probleme_Tudor/setul3-13.py",
     "Fundamente/tema_lab1_probleme_Tudor/setul1-3.py",
@@ -156,7 +150,6 @@
     "Notite de Cota Seful/Open Notebook.onetoc2",
     "Notite de Cota Seful",
     "Tudor",
-    "New folder",
-    "Fundamente/tema_lab1_probleme/setul2-11.py"
+    "New folder"
   ]
 }
