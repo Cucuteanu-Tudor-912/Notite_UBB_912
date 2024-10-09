@@ -98,7 +98,7 @@ ESI, EDI, ESP, EBP
 EIP
 E-Flags
 
-**Important!**  all registers have 32 bytes 
+**Important!**  all registers have 32 bits 
 
 # Data representation
 
