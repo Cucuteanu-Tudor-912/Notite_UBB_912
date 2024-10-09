@@ -1,6 +1,6 @@
-obsidian/app.json
-obsidian/appearance.json
-obsidian/workspace.json
+.obsidian/app.json
+.obsidian/appearance.json
+.obsidian/workspace.json
 
 
 */.idea
