@@ -1,0 +1,49 @@
+     1                                  ; Scrieți un program în limbaj de asamblare care să rezolve expresia aritmetică, considerând domeniile de definiție ale variabilelor
+     2                                  ; a - byte
+     3                                  ; b - word
+     4                                  ; c - double word
+     5                                  ; d - qword
+     6                                  
+     7                                  bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+     8                                  
+     9                                  ; definim punctul de intrare in programul principal
+    10                                  global  start 
+    11                                  
+    12                                  extern  exit ; indicam asamblorului ca exit exista, chiar daca noi nu o vom defini
+    13                                  import  exit msvcrt.dll; exit este o functie care incheie procesul, este definita in msvcrt.dll
+    14                                          ; msvcrt.dll contine exit, printf si toate celelalte functii C-runtime importante
+    15                                  segment  data use32 class=data ; segmentul de date in care se vor defini variabilele 
+    16 00000000 05                      	a db 5
+    17 00000001 0200                    	b dw 2
+    18 00000003 0A000000                	c dd 10
+    19 00000007 0C00000000000000        	d dq 12
+    20                                  segment  code use32 class=code ; segmentul de cod
+    21                                  
+    22                                  ; (c+b+b)-(c+d+a) (cu semn)
+    23                                  
+    24                                  start:
+    25 00000000 66A1[01000000]              mov ax, [b] ; ax = b
+    26 00000006 660305[01000000]            add ax, [b] ; ax = b+b
+    27 0000000D 98                          cwde ; EAX = b+b
+    28 0000000E 0305[03000000]              add eax, [c] ; eax = c+b+b
+    29                                      
+    30 00000014 99                          cdq ; edx:eax = c+b+b
+    31                                      
+    32 00000015 89C3                        mov ebx, eax
+    33 00000017 89D1                        mov ecx, edx
+    34                                      
+    35 00000019 A0[00000000]                mov al, [a] ; al = a
+    36 0000001E 6698                        cbw ; ax = a
+    37 00000020 660305[03000000]            add ax, [c] ; ax = c+a
+    38 00000027 98                          cwde ; eax = c+a
+    39 00000028 99                          cdq ; edx:eax = c+a
+    40                                      
+    41 00000029 0305[07000000]              add eax, dword[d] ; eax = c+a+d
+    42 0000002F 1315[0B000000]              adc edx, dword[d+4] 
+    43                                      
+    44 00000035 29C3                        sub ebx, eax
+    45 00000037 83DA00                      sbb edx, 0
+    46                                      
+    47                                  
+    48 0000003A 6A00                    push    dword 0      ; push the parameter for exit onto the stack
+    49 0000003C FF15[00000000]          call    [exit]       ; call exit to terminate the program  

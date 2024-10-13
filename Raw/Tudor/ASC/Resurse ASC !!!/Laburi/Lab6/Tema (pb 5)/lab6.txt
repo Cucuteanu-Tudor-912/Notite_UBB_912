@@ -1,0 +1,25 @@
+; Se dau doua siruri de octeti s1 si s2. Sa se construiasca sirul de octeti d, care contine pentru fiecare octet din s2 pozitia sa in s1, sau 0 in caz contrar.
+; Exemplu:
+; pos: 1, 2, 3, 4, 5 
+; s1: 7, 33, 55, 19, 46
+; s2: 33, 21, 7, 13, 27, 19, 55, 1, 46 
+; d: 2, 0, 1, 0, 0, 4, 3, 0, 5
+
+bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+
+global  start 
+
+extern  exit 
+import  exit msvcrt.dll
+segment  data use32 class=data
+	S1 db 7, 33, 55, 19, 46 ; se declara sirul S1
+    l equ $-S1 ; stabilim lungimea sirului S1
+    S2 db 33, 21, 7, 13, 27, 19, 55, 1, 46 ; se declara sirul S2
+    r equ $-S2 ; stabilim lungimea sirulii S2
+	D times l db 0 ; rezervarea unui spatiu de dimensiune l pentru sirul destinatie D si initializarea acestuia
+    pozitii db 1, 2, 3, 4, 5
+    contor resb 1
+   
+    
+segment  code use32 class=code ; segmentul de cod
+start:

@@ -1,0 +1,69 @@
+     1                                  ;Se da un sir de caractere S. Sa se construiasca sirul D care sa contina toate literele mici din sirul S.
+     2                                  ;Exemplu:
+     3                                  ;S: 'a', 'A', 'b', 'B', '2', '%', 'x'
+     4                                  ;D: 'a', 'b', 'x'
+     5                                  
+     6                                  bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+     7                                  
+     8                                  global  start 
+     9                                  
+    10                                  extern  exit 
+    11                                  import  exit msvcrt.dll
+    12                                  segment  data use32 class=data
+    13 00000000 61416242322578          	S db 'a', 'A', 'b', 'B', '2', '%', 'x' ; se declara sirul S
+    14                                      l equ $-S ; stabilim lungimea sirului S
+    15 00000007 00<rept>                	D times l db 0 ; rezervarea unui spatiu de dimensiune l pentru sirul destinatie D si initializarea acestuia
+    16                                     
+    17                                      
+    18                                  segment  code use32 class=code ; segmentul de cod
+    19                                  start:
+    20                                      ; se pune 0 in fiecare registru
+    21 00000000 B800000000                  mov eax, 0
+    22 00000005 BB00000000                  mov ebx, 0
+    23 0000000A B900000000                  mov ecx, 0
+    24 0000000F BA00000000                  mov edx, 0
+    25                                      
+    26 00000014 B907000000                  mov ecx, l  ; punem in registrul contor dimensiunea primului sir
+    27 00000019 BE00000000                  mov esi, 0  ; indicele de la care incepem iterarea
+    28 0000001E BF00000000                  mov edi, 0  ; indicele din sirul destinatie (D)
+    29                                      
+    30 00000023 E318                        jecxz sfarsit   ; tratam cazul in care ECX e 0
+    31                                      
+    32                                      repeta:
+    33 00000025 8A86[00000000]                  mov al,[S+esi]  ; punem in AL elementul de pe pozitia indicata de ESI din sirul S
+    34                                          
+    35                                          ; pentru a stabili daca un element este litera mica, se va compara diferenta (in codul ASCII) dintre 'z' si elementul din sir cu diferenta dintre 'z' si 'a'
+    36                                          
+    37                                          ; in cazul in care diferenta 1 este mai mica sau egala cu 25 ( 'z' - 'a' = 25), inseamna ca elementul este o litera mica si poate fi adaugat in sirul D
+    38                                    
+    39                                          ;mov bl, 'z'-'a' ; BL = 25
+    40                                          ;mov dl, 'z'  ; in DL se pune 'z' pentru a se putea face scaderea cu valoarea din AL
+    41                                          
+    42                                          ;sub dl, al ; se face scaderea 'z' - AL
+    43                                          ;sub bl, dl ; se face scaderea ('z'-'a') - ('z' - AL) pentru a se compara rezultatul cu 0
+    44                                      
+    45                                          ; daca valoarea din BL este pozitiva, inseamna ca elementul din AL este o litera mica si poate fi pus in sirul D
+    46                                          
+    47                                          ;cmp bl, 0
+    48                                          ;jnge not_lit_mica ; daca BL este negativ, nu se va efectua adaugarea in sir
+    49                                              
+    50                                          
+    51 0000002B 3C61                            cmp al, 'a' ; se face scaderea fictiva AL - 'a'
+    52 0000002D 7C0B                            jnge not_lit_mica ; daca diferenta nu este pozitiva, inseamna ca elementul nu poate fi litera mica
+    53                                      
+    54 0000002F 3C7A                            cmp al, 'z' ; se face scaderea fictiva 'z' - AL
+    55 00000031 7707                            jnbe not_lit_mica ; daca diferenta nu este negativ, inseamna ca elementul nu este litera mica
+    56                                          
+    57                                          ; daca BL este pozitiv, atunci inseamna ca elementul indeplineste conditiile cerute si poate fi pus in sirul DL
+    58 00000033 8887[07000000]                  mov [D+edi], al
+    59 00000039 47                              inc edi
+    60                                          
+    61                                          not_lit_mica:
+    62 0000003A 46                              inc esi ; incrementam indicele la care ne aflam
+    63                                          
+    64 0000003B E2E8                        loop repeta
+    65                                      sfarsit: ;terminarea programului
+    66                                   
+    67                                  
+    68 0000003D 6A00                    push    dword 0      ; push the parameter for exit onto the stack
+    69 0000003F FF15[00000000]          call    [exit]       ; call exit to terminate the program  

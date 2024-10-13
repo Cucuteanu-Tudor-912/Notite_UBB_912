@@ -1,0 +1,54 @@
+     1                                  bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+     2                                  
+     3                                  global  start 
+     4                                  
+     5                                  ; declararea functiilor externe folosite de program
+     6                                  extern exit     
+     7                                  import exit msvcrt.dll    
+     8                                  
+     9                                  segment  data use32 class=data
+    10 00000000 242312193412785669-         s1 dq 5678123419122324h, 6465626366676869h, 6262626262626262h
+    10 00000009 686766636265646262-
+    10 00000012 626262626262       
+    11                                      len equ $-s1
+    12 00000018 00000000<rept>              s2 times len/2 dd 0
+    13                                     
+    14                                  segment  code use32 class=code ; segmentul de cod
+    15                                      start:
+    16                                          ; se pune 0 in fiecare registru
+    17 00000000 31C0                            xor eax, eax
+    18 00000002 31DB                            xor ebx, ebx
+    19 00000004 31C9                            xor ecx, ecx
+    20 00000006 31D2                            xor edx, edx
+    21                                          
+    22                                          ; se pregateste sirul s1 de parcurgere
+    23 00000008 FC                              cld
+    24 00000009 BE[00000000]                    mov esi, s1
+    25 0000000E BF[18000000]                    mov edi, s2
+    26 00000013 B918000000                      mov ecx, len
+    27                                          
+    28                                          parcurgere_sir:
+    29 00000018 AD                                  lodsd        ; in EAX avem dwordul low din qword
+    30                                                           ; nu avem nevoie de el, deoarece lucram doar cu cele doua parti din dwordul HIGH
+    31                                                           ; pentru 12345678 19122324h, dword high = 12345678h, unde word low = 5678h si word high = 1234h
+    32                                                           
+    33 00000019 66AD                                lodsw        ; in AX avem acum wordul low
+    34 0000001B 6689C3                              mov bx, ax   ; salvam wodul low in BX pentru ca vom avea nevoie de el
+    35 0000001E 66AD                                lodsw        ; in AX pastram wordul high
+    36                                              
+    37                                              ; verificam daca cuvantul high este mai mare decat cuvantul low al dwordului
+    38 00000020 6639D8                              cmp ax, bx
+    39 00000023 7E02                                jle nu_verifica
+    40                                              
+    41                                              verifica:
+    42 00000025 66AB                                    stosw
+    43                                              
+    44                                              nu_verifica:
+    45 00000027 83E908                                  sub ecx, 8
+    46 0000002A E302                                    jecxz final
+    47 0000002C EBEA                                    jmp parcurgere_sir
+    48                                            
+    49                                              
+    50                                          final:
+    51 0000002E 6A00                                push dword 0
+    52 00000030 FF15[00000000]                      call [exit]

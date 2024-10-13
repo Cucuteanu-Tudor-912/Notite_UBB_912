@@ -1,0 +1,57 @@
+     1                                  ; Scrieți un program în limbaj de asamblare care să rezolve expresia aritmetică, considerând domeniile de definiție ale variabilelor
+     2                                  ; a - doubleword
+     3                                  ; b - byte
+     4                                  ; c - word
+     5                                  ; x - qword
+     6                                  
+     7                                  bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+     8                                  
+     9                                  ; definim punctul de intrare in programul principal
+    10                                  global  start 
+    11                                  
+    12                                  extern  exit ; indicam asamblorului ca exit exista, chiar daca noi nu o vom defini
+    13                                  import  exit msvcrt.dll; exit este o functie care incheie procesul, este definita in msvcrt.dll
+    14                                          ; msvcrt.dll contine exit, printf si toate celelalte functii C-runtime importante
+    15                                  segment  data use32 class=data ; segmentul de date in care se vor defini variabilele 
+    16 00000000 05000000                	a dd 5
+    17 00000004 0A                      	b db 10
+    18 00000005 0200                    	c dw 2
+    19 00000007 0C00000000000000        	x dq 12
+    20                                  segment  code use32 class=code ; segmentul de cod
+    21                                  
+    22                                  ; (a+b/c-1)/(b+2)-x (cu semn) = (5+10/2-1)/(10+2)-12 = 9/12 - 12 = -12
+    23                                  
+    24                                  start:
+    25                                      ;pentru a calcula b/c, convertim b de la byte la doubleword pentru a-l putea imparti la word-ul c
+    26                                      
+    27 00000000 A0[04000000]            	mov al, [b]
+    28 00000005 6698                    	cbw ;conversie cu semn de la al la ax
+    29 00000007 6699                    	cwd ;conversie cu semn de la ax la dx:ax
+    30                                  	;dx:ax = b
+    31 00000009 66F73D[05000000]        	idiv word [c] ;impartire cu semn dx:ax la c
+    32                                  	;ax=b/c	
+    33                                      
+    34 00000010 98                          cwde ; eax = b/c
+    35 00000011 0305[00000000]              add eax, [a] ; eax = a+b/c
+    36                                      
+    37 00000017 83E801                      sub eax, 1 ; eax = a+b/c-1
+    38                                      
+    39 0000001A 8A0D[04000000]              mov cl, [b]
+    40 00000020 80C102                      add cl, 2
+    41 00000023 6698                        cbw ; cx = b+2
+    42                                      
+    43                                      ;se sparge eax in dx:ax pentru impartire
+    44                                      
+    45 00000025 50                          push eax
+    46 00000026 6658                        pop ax
+    47 00000028 665A                        pop dx
+    48                                      
+    49 0000002A 66F7F9                      idiv cx ; ax = (a+b/c-1)/(b+2)
+    50 0000002D 98                          cwde ; eax = ax
+    51 0000002E 99                          cdq
+    52 0000002F 2B05[07000000]              sub eax, [x] ; rezultatul e in eax
+    53 00000035 83DA00                      sbb edx, 0
+    54                                      
+    55                                  
+    56 00000038 6A00                    push    dword 0      ; push the parameter for exit onto the stack
+    57 0000003A FF15[00000000]          call    [exit]       ; call exit to terminate the program 

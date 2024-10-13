@@ -1,0 +1,86 @@
+     1                                  ; Se dau doua siruri de octeti s1 si s2. Sa se construiasca sirul de octeti d, care contine pentru fiecare octet din s2 pozitia sa in s1, sau 0 in caz contrar.
+     2                                  ; Exemplu:
+     3                                  ; pos: 1, 2, 3, 4, 5 
+     4                                  ; s1: 7, 33, 55, 19, 46
+     5                                  ; s2: 33, 21, 7, 13, 27, 19, 55, 1, 46 
+     6                                  ; d: 2, 0, 1, 0, 0, 4, 3, 0, 5
+     7                                  
+     8                                  bits 32 ;asamblare si compilare pentru arhitectura de 32 biti
+     9                                  
+    10                                  global  start 
+    11                                  
+    12                                  extern  exit 
+    13                                  import  exit msvcrt.dll
+    14                                  segment  data use32 class=data
+    15 00000000 072137132E              	S1 db 7, 33, 55, 19, 46 ; se declara sirul S1
+    16                                      len_s1 equ $-S1  ; stabilim lungimea sirului S1
+    17 00000005 2115070D1B1337012E          S2 db 33, 21, 7, 13, 27, 19, 55, 1, 46  ; se declara sirul S2
+    18                                      len_s2 equ $-S2  ; stabilim lungimea sirulii S2
+    19 0000000E 00<rept>                	D times len_s2 db 0  ; rezervarea unui spatiu de dimensiune len_s2 pentru sirul destinatie D si initializarea acestuia
+    20                                     
+    21                                  segment  code use32 class=code ; segmentul de cod
+    22                                  start:
+    23                                      ; se pune 0 in fiecare registru
+    24 00000000 B800000000                  mov eax, 0
+    25 00000005 BB00000000                  mov ebx, 0
+    26 0000000A B900000000                  mov ecx, 0
+    27 0000000F BA00000000                  mov edx, 0
+    28                                      
+    29 00000014 BE00000000                  mov esi, 0
+    30 00000019 BF00000000                  mov edi, 0
+    31                                      
+    32 0000001E B909000000                  mov ecx, len_s2 ; in registrul contor punem lungimea sirului S2
+    33 00000023 BE[05000000]                mov esi, S2     ; in ESI punem adresa de inceput a sirului S2
+    34 00000028 FC                          cld             ; parcurgem sirul de la stanga la dreapta (DF=0). 
+    35 00000029 BF[0E000000]                mov edi, D      ; in EDI punem adresa de inceput a sirului destinatie
+    36                                      
+    37 0000002E E331                        jecxz sfarsit   ; tratam cazul in care ECX = 0 (S2 vid)
+    38                                      
+    39                                      parcurgere_s2:
+    40 00000030 AC                              lodsb       ; in AL e elementul din S2
+    41 00000031 88C3                            mov bl, al  ; se muta elementul in BL, deoarece AL va fi folosit mai tarziu
+    42 00000033 B800000000                      mov eax, 0  ; EAX se face 0
+    43                                          
+    44 00000038 56                              push esi    ; se pune ESI pe stiva pentru a se putea pune adresa de inceput a sirului S1
+    45 00000039 51                              push ecx    ; se pune ECX pe stiva pentru a se putea retine lungimea lui S1
+    46                                          
+    47 0000003A B905000000                      mov ecx, len_s1 ; lungimea lui S1
+    48 0000003F BE00000000                      mov esi, 0 ; adresa de inceput a sirului S1
+    49                                         
+    50                                          search:
+    51 00000044 8A96[00000000]                      mov dl, [S1+esi]
+    52 0000004A 38DA                                cmp dl, bl  ; se compara cele doua elemente din cele doua siruri
+    53 0000004C 7405                                je found    ; daca sunt egale, inseamna ca s-a gasit elementul din S2 in S1
+    54 0000004E 46                                  inc esi
+    55                                           
+    56                                                  
+    57 0000004F E2F3                            loop search
+    58                                          
+    59 00000051 EB05                            jmp not_found
+    60                                              found:
+    61 00000053 89F0                                    mov eax, esi 
+    62                                                  ;sub eax, S2
+    63 00000055 AA                                      stosb ; mov [edi], AL
+    64 00000056 EB05                                    jmp continuare_parcurgere_s2
+    65                                           
+    66                                          ;dupa:
+    67                                          
+    68                                          ;jecxz not_found
+    69                                          
+    70                                          not_found:
+    71 00000058 B000                                    mov al, byte 0
+    72 0000005A AA                                      stosb
+    73 0000005B EB00                                    jmp continuare_parcurgere_s2
+    74                                                  
+    75                                          continuare_parcurgere_s2:
+    76 0000005D 59                                  pop ecx
+    77 0000005E 5E                                  pop esi
+    78                                              ;dec ecx
+    79                                              ;jmp parcurgere_s2
+    80                                          
+    81 0000005F E2CF                        loop parcurgere_s2
+    82                                          
+    83                                      sfarsit:
+    84                                      
+    85 00000061 6A00                        push    dword 0      ; push the parameter for exit onto the stack
+    86 00000063 FF15[00000000]              call    [exit]       ; call exit to terminate the program  
