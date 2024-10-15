@@ -23,15 +23,12 @@ def generate_random_list(l, n):
     for i in range(n):
         l.append(random.randint(0, 1000))
     print("Your list: ", l)
-    x = l[:] #we copy the list so we can use multiple commands on the same array
-    x.sort()
-    print("Your sorted list: ", x)
 
 #binary search needed for exponential search
 def binary_search(l, st, dr, elem):
     mid = (st + dr) // 2
     if st > dr:
-        return "The number does not exist in the list"
+        return -1
     if l[mid] == elem:
         return mid
     elif elem < l[mid]:
@@ -40,8 +37,7 @@ def binary_search(l, st, dr, elem):
         return binary_search(l, mid + 1, dr, elem)
 
 #command 2
-def exponential_search_list(l, elem):
-    x = l
+def exponential_search_list(x, elem):
     n = len(x)
     i = 1
     while i < n and x[i] < elem:
@@ -49,8 +45,7 @@ def exponential_search_list(l, elem):
     print(elem, "is on position", binary_search(x, i // 2, min(i, n - 1), elem))
 
 #command 3
-def cocktail_sort(l, step):
-    x = l
+def cocktail_sort(x, step):
     n = len(x)
     num_step = 0
     st = 0
@@ -104,9 +99,8 @@ def getGap(gap):
        return 1
     return gap
 
-def comb_sort(l, step):
-    x=l
-    n=len(l)
+def comb_sort(x, step):
+    n=len(x)
     gap=n
     done=False
     num_steps = 0
