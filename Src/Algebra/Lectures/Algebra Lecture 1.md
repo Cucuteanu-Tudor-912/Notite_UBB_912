@@ -80,3 +80,4 @@ The family of non-empty subsets  of $A$ is called a **partition** of $A$ if:
 # Quotient sets
 
 
+$A \subset A$
