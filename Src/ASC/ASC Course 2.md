@@ -118,4 +118,4 @@ The size of the representation
 - 32 bits - doubleword ^dw
 - 64 bits - quadword ^qw
 
-[recurrence](Src/ASC/ASC%20%20Seminar%201#Syntax##Declare)
+[recurrence](ASC%20Seminar%201.md#Syntax##Declare)
